@@ -5,7 +5,7 @@ interface Props {
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { value: string; label: string }[];
+  options: string[];
 }
 
 const CompSelect: React.FC<Props> = ({
@@ -23,11 +23,11 @@ const CompSelect: React.FC<Props> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="border rounded-md w-full px-1 py-px"
+        className="border rounded-md w-full px-2 py-px capitalize"
       >
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+          <option className="capitalize" key={option} value={option}>
+            {option}
           </option>
         ))}
       </select>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Category, Database, Ingredient } from "../database.types";
+import { Database, Ingredient } from "../database.types";
 import CompInput from "./input";
 import MultiInput from "./multi-input";
 import MultiComplexInput from "./multi-complex-input";
@@ -10,13 +10,13 @@ import CompButton from "@/assets/button";
 import CompSelect from "./select";
 
 const categoryOptions = [
-  { value: Category.BREAKFAST, label: "Breakfast" },
-  { value: Category.MEAL, label: "Meal" },
-  { value: Category.SNACK, label: "Snack" },
-  { value: Category.DESSERT, label: "Dessert" },
-  { value: Category.DRINK, label: "Drink" },
-  { value: Category.SOUP, label: "Soup" },
-  { value: Category.OTHER, label: "Other" },
+  "breakfast",
+  "meal",
+  "snack",
+  "dessert",
+  "drink",
+  "soup",
+  "other",
 ];
 
 const RecipeForm = () => {
@@ -74,12 +74,6 @@ const RecipeForm = () => {
         value={recipeData.description || ""}
         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
         textArea
-      />
-      <CompInput
-        label="Yield"
-        name="yield"
-        value={recipeData.yield || ""}
-        onChange={(e) => handleInputChange(e.target.name, e.target.value)}
       />
       <CompSelect
         label="Category"

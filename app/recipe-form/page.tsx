@@ -1,13 +1,13 @@
-import React from 'react'
-import RecipeForm from './recipe-form'
+import React from "react";
+import RecipeForm from "./recipe-form";
 
 const RecipeFormPage = () => {
   return (
     <>
-    <div>RecipeFormPage</div>
-    <RecipeForm />
+      <h1 className="text-2xl">RecipeFormPage</h1>
+      <RecipeForm />
     </>
-  )
-}
+  );
+};
 
-export default RecipeFormPage
+export default RecipeFormPage;

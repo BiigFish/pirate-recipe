@@ -11,24 +11,23 @@ export type Ingredient = {
   ingredient: string;
 };
 
+export type Recipe = Database["public"]["Tables"]["recipes"]["Row"];
+
 export interface Database {
   public: {
     Tables: {
       profiles: {
         Row: {
-          full_name: string | null;
           id: string;
           updated_at: string | null;
           username: string | null;
         };
         Insert: {
-          full_name?: string | null;
           id: string;
           updated_at?: string | null;
           username?: string | null;
         };
         Update: {
-          full_name?: string | null;
           id?: string;
           updated_at?: string | null;
           username?: string | null;
@@ -44,6 +43,7 @@ export interface Database {
       };
       recipes: {
         Row: {
+          author_id: string;
           active_cook_time: string | null;
           category: string | null;
           created_at: string;
@@ -57,6 +57,7 @@ export interface Database {
           yield: string | null;
         };
         Insert: {
+          author_id?: string;
           active_cook_time?: string | null;
           category?: string | null;
           created_at?: string;
@@ -70,6 +71,7 @@ export interface Database {
           yield?: string | null;
         };
         Update: {
+          author_id?: string;
           active_cook_time?: string | null;
           category?: string | null;
           created_at?: string;

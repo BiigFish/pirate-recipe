@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Database, Ingredient } from "../database.types";
+import { Database, Ingredient, Recipe } from "../database.types";
 import CompInput from "./input";
 import MultiInput from "./multi-input";
 import MultiComplexInput from "./multi-complex-input";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import CompButton from "@/assets/button";
 import CompSelect from "./select";
+import { useUserData } from "@/hooks/useUserData";
 
 const categoryOptions = [
   "breakfast",
@@ -16,14 +17,17 @@ const categoryOptions = [
   "dessert",
   "drink",
   "soup",
+  "baking",
   "other",
 ];
 
-const RecipeForm = () => {
-  type Recipe = Database["public"]["Tables"]["recipes"]["Row"];
-  const supabase = createClientComponentClient<Database>();
+interface Props {
+  editRecipe?: Recipe;
+}
 
-  const initialRecipeData: Recipe = {
+const RecipeForm: React.FC<Props> = ({ editRecipe }) => {
+  const initialRecipeData: Recipe = editRecipe || {
+    author_id: "",
     active_cook_time: null,
     category: null,
     created_at: "",
@@ -36,8 +40,9 @@ const RecipeForm = () => {
     passive_cook_time: null,
     yield: null,
   };
-
-  const [recipeData, setRecipeData] = useState(initialRecipeData);
+  const [recipeData, setRecipeData] = useState<Recipe>(initialRecipeData);
+  const supabase = createClientComponentClient<Database>();
+  const userId = useUserData()?.id;
 
   const handleInputChange = (
     name: string,
@@ -49,7 +54,16 @@ const RecipeForm = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!userId) {
+      alert("You must be logged in to create a recipe!");
+      return;
+    }
+    if (editRecipe && userId !== editRecipe.author_id) {
+      alert("You are not authorized to edit this recipe!");
+      return;
+    }
     try {
+      recipeData.author_id = userId;
       recipeData.created_at = new Date().toISOString();
       const { error } = await supabase.from("recipes").upsert(recipeData);
       if (error) throw error;
@@ -117,7 +131,7 @@ const RecipeForm = () => {
       />
 
       <CompButton type="submit" fullWidth>
-        Create Recipe
+        {editRecipe ? "Update Recipe" : "Create Recipe"}
       </CompButton>
     </form>
   );

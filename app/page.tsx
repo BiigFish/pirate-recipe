@@ -1,18 +1,31 @@
-import AuthForm from './auth-form'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "./database.types";
+import Link from "next/link";
 
-export default function Home() {
+const Home = async () => {
+  const supabase = createClientComponentClient<Database>();
+
+  const { data, error } = await supabase.from("recipes").select("name, id");
+
+  if (error) {
+    alert("Error loading recipes!");
+  }
+
+  console.log(data);
+
   return (
-    <div className="row">
-      <div className="col-6">
-        <h1 className="header">Supabase Auth + Storage</h1>
-        <p className="">
-          Experience our Auth and Storage through a simple profile management example. Create a user
-          profile and upload an avatar image. Fast, simple, secure.
-        </p>
-      </div>
-      <div className="col-6 auth-widget">
-        <AuthForm />
-      </div>
-    </div>
-  )
-}
+    <>
+      {data && (
+        <ul>
+          {data.map((recipe, index) => (
+            <Link key={index} href={recipe.id.toString()}>
+              <li>{recipe.name}</li>
+            </Link>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+};
+
+export default Home;

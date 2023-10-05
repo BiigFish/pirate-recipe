@@ -4,10 +4,7 @@ import { Database } from "../database.types";
 import AccountForm from "./settings-form";
 import { cache } from "react";
 
-// export const runtime = "edge";
-// export const dynamic = "force-dynamic";
-
-export const serverSupabaseCookies = cache(() => {
+const serverSupabaseCookies = cache(() => {
   const cookieStore = cookies();
   return createServerComponentClient<Database>({ cookies: () => cookieStore });
 });

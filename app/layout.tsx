@@ -22,7 +22,7 @@ export default function RootLayout({
         <div className="max-w-3xl mx-2 md:mx-auto">
           <header>
             <Link href="/">
-              <h1 className="sm:text-center text-4xl font-bold">
+              <h1 className="text-4xl font-bold w-fit sm:mx-auto">
                 Pirate Recipe
               </h1>
             </Link>

@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    console.log("email error", error);
+    console.log("login error", error);
   }
 
   return NextResponse.redirect(requestUrl.origin, {

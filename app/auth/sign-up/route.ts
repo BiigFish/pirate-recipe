@@ -13,8 +13,8 @@ export async function POST(request: Request) {
   console.log("email");
 
   const { error } = await supabase.auth.signUp({
-    email: "test@gmail.com",
-    password: "123456",
+    email,
+    password,
     options: {
       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
     },

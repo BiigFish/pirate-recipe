@@ -1,26 +1,29 @@
-"use client";
-import { useUserData } from "@/hooks/useUserData";
 import Link from "next/link";
 import React from "react";
 import CompButton from "./button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-const LoginButton = () => {
-  const userId = useUserData()?.id;
+const LoginButton = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   return (
     <div className="absolute top-2 right-2 flex gap-x-2 items-center">
-      {userId ? (
+      {session ? (
         <div className="text-2xl space-x-8">
           <Link href="/recipe-form">
             <button>
-              <FontAwesomeIcon icon={faPlus} />
+              d <FontAwesomeIcon icon={faPlus} />
             </button>
           </Link>
           <Link href="/settings">
             <button>
-              <FontAwesomeIcon icon={faGear} />
+              f<FontAwesomeIcon icon={faGear} />
             </button>
           </Link>
         </div>

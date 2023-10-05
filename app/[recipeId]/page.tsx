@@ -3,7 +3,6 @@ import React from "react";
 import { Database, Recipe } from "../database.types";
 import Link from "next/link";
 import CompButton from "@/assets/button";
-import EditButton from "./edit-button";
 
 const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
   const supabase = createClientComponentClient<Database>();
@@ -15,6 +14,11 @@ const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
     alert("Error loading recipe!");
   }
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const userId = session?.user.id;
+
   const recipeData: Recipe | undefined = data ? data[0] : undefined;
   if (!recipeData) {
     return <div>Recipe not found!</div>;
@@ -25,10 +29,11 @@ const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
         <Link href="/">
           <CompButton>Go Back</CompButton>
         </Link>
-        <EditButton
-          recipeId={params.recipeId}
-          authorId={recipeData.author_id}
-        />
+        {userId === recipeData.author_id && (
+          <Link href={`/recipe-form/?recipeId=${params.recipeId}`}>
+            <CompButton>Edit Recipe</CompButton>
+          </Link>
+        )}
       </div>
       <h1 className="text-3xl font-bold">{recipeData.name}</h1>
       <p className="my-4">{recipeData.description}</p>

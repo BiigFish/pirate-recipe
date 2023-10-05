@@ -11,7 +11,7 @@ const Home = async () => {
     alert("Error loading recipes!");
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

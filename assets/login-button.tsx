@@ -1,15 +1,19 @@
 import Link from "next/link";
-import React from "react";
+import React, { cache } from "react";
 import CompButton from "./button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { Database } from "@/app/database.types";
 
-export const dynamic = "force-dynamic";
+export const serverSupabaseCookies = cache(() => {
+  const cookieStore = cookies();
+  return createServerComponentClient<Database>({ cookies: () => cookieStore });
+});
 
-const LoginButton = async () => {
-  const supabase = createServerComponentClient({ cookies });
+export default async function LoginButton() {
+  const supabase = serverSupabaseCookies();
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -36,6 +40,4 @@ const LoginButton = async () => {
       )}
     </div>
   );
-};
-
-export default LoginButton;
+}

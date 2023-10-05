@@ -3,10 +3,11 @@ import { cookies } from "next/headers";
 import { Database } from "../database.types";
 import AccountForm from "./settings-form";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function Account() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { session },

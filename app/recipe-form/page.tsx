@@ -32,6 +32,10 @@ const RecipeFormPage = async ({
     recipeData = await fetchRecipe();
   }
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   // const recipeData: Recipe | undefined = data ? data[0] : undefined;
   return (
     <>
@@ -39,7 +43,7 @@ const RecipeFormPage = async ({
         <CompButton>Go Back</CompButton>
       </Link>
       <h1 className="text-2xl font-bold my-2">Recipe Form Page</h1>
-      <RecipeForm editRecipe={recipeData} />
+      <RecipeForm editRecipe={recipeData} session={session} />
     </>
   );
 };

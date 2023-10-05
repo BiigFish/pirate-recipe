@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { Database } from "../database.types";
 import AccountForm from "./settings-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function Account() {
   const supabase = createServerComponentClient({ cookies });
 

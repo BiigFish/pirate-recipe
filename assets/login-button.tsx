@@ -6,6 +6,8 @@ import { faGear, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const LoginButton = async () => {
   const supabase = createServerComponentClient({ cookies });
   const {

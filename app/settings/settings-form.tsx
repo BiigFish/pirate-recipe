@@ -83,8 +83,6 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
   return (
     <div className="space-y-4">
-      <h1 onClick={() => console.log("aa", session)}>help</h1>
-
       <h1 className="text-3xl font-bold">Settings</h1>
       <div className="flex gap-x-4">
         <p className="font-bold">Email:</p>

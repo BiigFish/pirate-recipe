@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +18,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  config.autoAddCss = false;
   return (
     <html lang="en">
       <body className={inter.className}>
         <div className="max-w-3xl mx-2 md:mx-auto">
-          <header>
+          <header className="relative">
             <Link href="/">
               <h1 className="text-4xl font-bold w-fit sm:mx-auto">
                 Pirate Recipe

@@ -1,11 +1,8 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "./database.types";
 import Link from "next/link";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
 
 const Home = async () => {
-  config.autoAddCss = false;
   const supabase = createClientComponentClient<Database>();
 
   const { data, error } = await supabase.from("recipes").select("name, id");
@@ -13,8 +10,6 @@ const Home = async () => {
   if (error) {
     alert("Error loading recipes!");
   }
-
-  // console.log(data);
 
   return (
     <>

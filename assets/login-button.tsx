@@ -33,7 +33,7 @@ export default async function LoginButton() {
         <DropdownMenuTrigger className="text-lg">
           Menu <FontAwesomeIcon icon={faHamburger} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="bg-white">
           {session ? (
             <>
               <LoginButtonItem

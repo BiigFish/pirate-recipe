@@ -61,9 +61,11 @@ const MultiInput: React.FC<Props> = ({ label, values, setValues }) => {
           {index < values.length - 1 && (
             <>
               <button
+                disabled={index === 0}
                 tabIndex={-1}
                 type="button"
                 onClick={() => handleMoveValue(index, "up")}
+                className="disabled:text-gray-400"
               >
                 <FontAwesomeIcon icon={faUpLong} />
               </button>
@@ -72,6 +74,7 @@ const MultiInput: React.FC<Props> = ({ label, values, setValues }) => {
                 tabIndex={-1}
                 type="button"
                 onClick={() => handleMoveValue(index, "down")}
+                className="disabled:text-gray-400"
               >
                 <FontAwesomeIcon icon={faDownLong} />
               </button>

@@ -1,16 +1,25 @@
-import React from "react";
+import React, { cache } from "react";
 import RecipeForm from "./recipe-form";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { Database, Recipe } from "../database.types";
 import Link from "next/link";
 import CompButton from "@/assets/button";
+import { cookies } from "next/headers";
+
+const serverSupabaseCookies = cache(() => {
+  const cookieStore = cookies();
+  return createServerComponentClient<Database>({ cookies: () => cookieStore });
+});
 
 const RecipeFormPage = async ({
   searchParams,
 }: {
   searchParams: { recipeId: string };
 }) => {
-  const supabase = createClientComponentClient<Database>();
+  const supabase = serverSupabaseCookies();
 
   const fetchRecipe = async () => {
     const { data, error: recipeError } = await supabase
@@ -36,7 +45,6 @@ const RecipeFormPage = async ({
     data: { session },
   } = await supabase.auth.getSession();
 
-  // const recipeData: Recipe | undefined = data ? data[0] : undefined;
   return (
     <>
       <Link href={recipeData ? `/${searchParams.recipeId}` : "/"}>

@@ -24,10 +24,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="max-w-3xl mx-2 md:mx-auto">
           <header className="relative">
-            <Link href="/">
-              <h1 className="text-4xl font-bold w-fit sm:mx-auto">
-                Pirate Recipe
-              </h1>
+            <Link href="/" className="w-fit block sm:mx-auto">
+              <h1 className="text-4xl font-bold ">Pirate Recipe</h1>
             </Link>
             <LoginButton />
           </header>

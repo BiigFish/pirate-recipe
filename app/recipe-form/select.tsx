@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Props {
+interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   name: string;
   value: string;
@@ -14,6 +14,7 @@ const CompSelect: React.FC<Props> = ({
   value,
   onChange,
   options,
+  ...props
 }) => {
   return (
     <div>
@@ -24,6 +25,7 @@ const CompSelect: React.FC<Props> = ({
         value={value}
         onChange={onChange}
         className="border rounded-md w-full px-2 py-px capitalize"
+        {...props}
       >
         {options.map((option) => (
           <option className="capitalize" key={option} value={option}>

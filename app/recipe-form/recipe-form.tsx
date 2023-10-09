@@ -89,6 +89,7 @@ const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
         name="name"
         value={recipeData.name || ""}
         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+        required
       />
       <CompInput
         label="Description"
@@ -96,6 +97,7 @@ const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
         value={recipeData.description || ""}
         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
         textArea
+        required
       />
       <CompSelect
         label="Category"
@@ -103,6 +105,7 @@ const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
         value={recipeData.category || ""}
         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
         options={categoryOptions}
+        required
       />
       <MultiComplexInput
         label="Ingredients"
@@ -119,6 +122,7 @@ const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
         name="active_cook_time"
         value={recipeData.active_cook_time || ""}
         onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+        required
       />
       <CompInput
         label="Passive Cook Time"

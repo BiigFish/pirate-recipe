@@ -111,6 +111,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                   type="text"
                   value={usernameTemp || ""}
                   onChange={(e) => setUsernameTemp(e.target.value)}
+                  required
                 />
               </div>
               <DialogFooter>

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 
-interface Props {
+interface Props
+  extends InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
   name: string;
   value: string;
@@ -16,6 +17,7 @@ const CompInput: React.FC<Props> = ({
   value,
   onChange,
   textArea = false,
+  ...props
 }) => {
   return (
     <div>
@@ -28,6 +30,7 @@ const CompInput: React.FC<Props> = ({
           onChange={onChange}
           className="border rounded-md w-full px-1 py-px"
           rows={3}
+          {...props}
         />
       ) : (
         <input
@@ -35,6 +38,7 @@ const CompInput: React.FC<Props> = ({
           value={value}
           onChange={onChange}
           className="border rounded-md w-full px-1 py-px"
+          {...props}
         />
       )}
     </div>

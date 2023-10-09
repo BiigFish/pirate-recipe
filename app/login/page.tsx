@@ -14,6 +14,7 @@ export default function Login() {
         <input
           name="email"
           className="border rounded-md w-full px-1 py-px mb-4"
+          required
         />
       </div>
       <div>
@@ -24,6 +25,7 @@ export default function Login() {
           type="password"
           name="password"
           className="border rounded-md w-full px-1 py-px mb-4"
+          required
         />
       </div>
       <div className="flex justify-between">

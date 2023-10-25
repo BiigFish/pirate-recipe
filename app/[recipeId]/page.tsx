@@ -3,9 +3,39 @@ import React from "react";
 import { Database, Recipe } from "../database.types";
 import Link from "next/link";
 import CompButton from "@/assets/button";
+import { Metadata } from "next";
+
+const supabase = createClientComponentClient<Database>();
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { recipeId: string };
+}): Promise<Metadata> {
+  const id = params.recipeId;
+
+  const { data } = await supabase
+    .from("recipes")
+    .select("name, description")
+    .eq("id", id);
+  const recipe = data ? data[0] : undefined;
+
+  const description = recipe?.description || "";
+  const title = recipe?.name;
+
+  return {
+    title,
+    description,
+    publisher: "Pirate Recipe",
+    openGraph: {
+      title: `${title} | Pirate Recipe`,
+      description: description,
+      siteName: "Pirate Recipe",
+    },
+  };
+}
 
 const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
-  const supabase = createClientComponentClient<Database>();
   const { data, error: recipeError } = await supabase
     .from("recipes")
     .select("*")

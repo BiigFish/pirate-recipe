@@ -17,6 +17,12 @@ export async function POST(request: Request) {
 
   if (error) {
     console.log("login error", error);
+    return NextResponse.redirect(
+      `${requestUrl.origin}/login?error=${error.message}`,
+      {
+        status: 301,
+      }
+    );
   }
 
   return NextResponse.redirect(requestUrl.origin, {

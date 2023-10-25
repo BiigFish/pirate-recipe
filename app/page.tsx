@@ -1,18 +1,55 @@
-import AuthForm from './auth-form'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "./database.types";
+import Link from "next/link";
 
-export default function Home() {
+const Home = async () => {
+  const supabase = createClientComponentClient<Database>();
+
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("name, id, category");
+
+  if (error) {
+    alert("Error loading recipes!");
+  }
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  const uniqueValues: Set<string> = new Set<string>();
+  data.forEach((recipe) => {
+    if (recipe.category) {
+      uniqueValues.add(recipe.category);
+    }
+  });
+
   return (
-    <div className="row">
-      <div className="col-6">
-        <h1 className="header">Supabase Auth + Storage</h1>
-        <p className="">
-          Experience our Auth and Storage through a simple profile management example. Create a user
-          profile and upload an avatar image. Fast, simple, secure.
-        </p>
-      </div>
-      <div className="col-6 auth-widget">
-        <AuthForm />
-      </div>
+    <div className="space-y-4">
+      {data &&
+        Array.from(uniqueValues).map((category: string) => (
+          <fieldset
+            key={category}
+            className="border border-black rounded-lg px-4"
+          >
+            <legend className=" capitalize font-bold">{category}</legend>
+            <ul className="space-y-2">
+              {data
+                .filter((d) => d.category === category)
+                .map((recipe, index) => (
+                  <Link
+                    key={index}
+                    href={recipe.id.toString()}
+                    className="w-fit block"
+                  >
+                    <li>{recipe.name}</li>
+                  </Link>
+                ))}
+            </ul>
+          </fieldset>
+        ))}
     </div>
-  )
-}
+  );
+};
+
+export default Home;

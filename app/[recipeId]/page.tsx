@@ -1,17 +1,20 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import React from "react";
+import {
+  createClientComponentClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+import React, { cache } from "react";
 import { Database, Recipe } from "../database.types";
 import Link from "next/link";
 import CompButton from "@/assets/button";
 import { Metadata } from "next";
-
-const supabase = createClientComponentClient<Database>();
+import { cookies } from "next/headers";
 
 export async function generateMetadata({
   params,
 }: {
   params: { recipeId: string };
 }): Promise<Metadata> {
+  const supabase = createClientComponentClient<Database>();
   const id = params.recipeId;
 
   const { data } = await supabase
@@ -36,6 +39,13 @@ export async function generateMetadata({
 }
 
 const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
+  const serverSupabaseCookies = cache(() => {
+    const cookieStore = cookies();
+    return createServerComponentClient<Database>({
+      cookies: () => cookieStore,
+    });
+  });
+  const supabase = serverSupabaseCookies();
   const { data, error: recipeError } = await supabase
     .from("recipes")
     .select("*")
@@ -45,9 +55,11 @@ const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
   }
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const userId = session?.user.id;
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+  console.log("aaa", user, error);
+  const userId = user?.id;
 
   const recipeData: Recipe | undefined = data ? data[0] : undefined;
   if (!recipeData) {
@@ -70,7 +82,7 @@ const RecipePage = async ({ params }: { params: { recipeId: string } }) => {
         {recipeData.category}
       </div>
       <p className="my-4">{recipeData.description}</p>
-      <div className="border border-black p-2.5 space-y-2">
+      <div className="border border-black p-2.5 space-y-2 mb-6">
         {recipeData.yield && <p className="">YIELD: {recipeData.yield}</p>}
         <div className="text-center flex gap-x-4 mx-auto w-fit">
           <div>

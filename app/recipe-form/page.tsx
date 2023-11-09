@@ -1,9 +1,6 @@
 import React, { cache } from "react";
 import RecipeForm from "./recipe-form";
-import {
-  createClientComponentClient,
-  createServerComponentClient,
-} from "@supabase/auth-helpers-nextjs";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database, Recipe } from "../database.types";
 import Link from "next/link";
 import CompButton from "@/assets/button";

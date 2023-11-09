@@ -11,6 +11,7 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import CompButton from "@/assets/button";
 import CompSelect from "./select";
+import { useRouter } from "next/navigation";
 
 const categoryOptions = [
   "breakfast",
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
+  const router = useRouter();
   const initialRecipeData: Recipe = editRecipe || {
     author_id: "",
     active_cook_time: null,
@@ -73,7 +75,9 @@ const RecipeForm: React.FC<Props> = ({ editRecipe, session }) => {
 
       const { error } = await supabase.from("recipes").upsert(recipeData);
       if (error) throw error;
+      const id = recipeData.id;
       setRecipeData(initialRecipeData);
+      router.push(`/${id}`);
     } catch (error) {
       alert("Error updating the data!");
       console.log(error);

@@ -1,9 +1,17 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "./database.types";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { cache } from "react";
 
 const Home = async () => {
-  const supabase = createClientComponentClient<Database>();
+  const serverSupabaseCookies = cache(() => {
+    const cookieStore = cookies();
+    return createServerComponentClient<Database>({
+      cookies: () => cookieStore,
+    });
+  });
+  const supabase = serverSupabaseCookies();
 
   const { data, error } = await supabase
     .from("recipes")
